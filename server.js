@@ -12,33 +12,10 @@ const port = process.env.PORT || 5000;
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const schedule = require("node-schedule");
 
 const authRouter = require("./routes/authRouter");
 const coinRouter = require("./routes/coinRouter");
 const cryptofolioRouter = require("./routes/cryptofolioRouter");
-const { priceCrawler } = require("./crawler/priceCrawler");
-const { coinCrawler } = require("./crawler/coinCrawler");
-const { metadataCrawler } = require("./crawler/metadataCrawler");
-// coinCrawler();
-// const { foo } = require("./dummyfunc");
-// foo();
-// priceCrawler();
-
-schedule.scheduleJob("0 6 * * *", () => {
-  console.log("run price Crawler", new Date());
-  priceCrawler();
-});
-
-schedule.scheduleJob("0 7 * * *", () => {
-  console.log("run coin Crawler", new Date());
-  coinCrawler();
-});
-
-schedule.scheduleJob("*/30 * * * *", () => {
-  console.log("run metadata Crawler", new Date());
-  metadataCrawler();
-});
 
 const mongoURL = process.env.MONGO_URL.replace(
   "<PASSWORD>",

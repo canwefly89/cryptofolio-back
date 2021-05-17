@@ -100,6 +100,17 @@ exports.socialLoginDB = async (req, res, next) => {
 
 exports.signupDB = async (req, res, next) => {
   try {
+    const isExist = await User.findOne({ email: req.body.email });
+
+    if (isExist) {
+      return res.status(200).json({
+        message: "fail",
+        data: {
+          errMessage: "존재하는 이메일입니다.",
+        },
+      });
+    }
+
     const user = new User(req.body);
     await user.save();
 

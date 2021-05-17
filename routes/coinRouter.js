@@ -1,8 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const coinController = require("./controllers/coinController");
+const {
+  getHomeDB,
+  updateMetaDataDB,
+  updatePriceDB,
+} = require("./controllers/coinController");
 
-router.route("/").get(coinController.getHomeDB);
-router.route("/:coinName").get(coinController.mockfunc);
+router.route("/").get(getHomeDB);
+router.route("/metadata").get(updateMetaDataDB);
+router.route("/price").get(updatePriceDB);
 
 module.exports = router;
