@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const {
-  getHomeDB,
+  getDataDB,
   updateMetaDataDB,
   updatePriceDB,
 } = require("./controllers/coinController");
 
-router.route("/").get(getHomeDB);
+router.route("/").get(getDataDB);
 router.route("/metadata").get(updateMetaDataDB);
 router.route("/price").get(updatePriceDB);
 

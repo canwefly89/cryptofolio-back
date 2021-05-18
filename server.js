@@ -12,6 +12,7 @@ const port = process.env.PORT || 5000;
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const Pusher = require("pusher");
 
 const authRouter = require("./routes/authRouter");
 const coinRouter = require("./routes/coinRouter");
@@ -21,6 +22,14 @@ const mongoURL = process.env.MONGO_URL.replace(
   "<PASSWORD>",
   process.env.MONGO_PASSWORD
 );
+
+const pusher = new Pusher({
+  appId: process.env.PUSHER_APPID,
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
+  cluster: "ap3",
+  useTLS: true,
+});
 
 mongoose
   .connect(mongoURL, {
@@ -35,6 +44,19 @@ mongoose
   .catch((err) => {
     console.log(`ERROR: ${err.name}, ${err.message}`);
   });
+
+const db = mongoose.connection;
+
+db.once("open", () => {
+  const metadataCollection = db.collection("metadatas");
+  const changeMetaData = metadataCollection.watch();
+
+  changeMetaData.on("change", () => {
+    pusher.trigger("metadatas", "changed", {
+      message: "metadata changed",
+    });
+  });
+});
 
 app.use(cors());
 app.use(morgan("dev"));

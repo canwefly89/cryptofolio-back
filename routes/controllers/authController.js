@@ -4,6 +4,7 @@ const { createToken, verifyToken } = require("../../utils/tokenHandler");
 exports.checkAuthDB = async (req, res, next) => {
   try {
     const user = await verifyToken(req.body.token);
+    console.log(req.cookies);
 
     if (!user) {
       return res.status(200).json({

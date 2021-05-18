@@ -2,7 +2,7 @@ const fetch = require("node-fetch");
 const MetaData = require("../../models/metaDataModel");
 const Coin = require("../../models/coinModel");
 
-exports.getHomeDB = async (req, res, next) => {
+exports.getDataDB = async (req, res, next) => {
   try {
     const coinDB = await Coin.find().lean();
     const metadata = await MetaData.find().lean();
