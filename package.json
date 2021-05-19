@@ -2,6 +2,9 @@
   "name": "cryptofolio-back",
   "version": "1.0.0",
   "main": "server.js",
+  "engines": {
+    "node": "14.16.0"
+  },
   "scripts": {
     "test": "mocha spec --sort",
     "start": "node server.js"
@@ -9,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dayjs": "^1.10.4",
@@ -19,7 +22,6 @@
     "mongoose": "^5.12.3",
     "morgan": "^1.10.0",
     "node-fetch": "^2.6.1",
-    "puppeteer": "^9.1.1",
     "pusher": "^5.0.0"
   },
   "devDependencies": {
