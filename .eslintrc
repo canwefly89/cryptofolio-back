@@ -31,6 +31,7 @@
       { "argsIgnorePattern": "req|res|next|val|document" }
     ],
     "no-unused-expressions": "off",
+    "no-plusplus": "off",
     "no-underscore-dangle": "off",
     "comma-dangle": ["off", "always-multiline", { "objects": "always" }],
     "func-names": "off",
@@ -38,8 +39,12 @@
     "no-process-exit": "warn",
     "no-param-reassign": "warn",
     "no-return-await": "warn",
+    "no-await-in-loop": "off",
+    "no-loop-func": "off",
     "spaced-comment": "warn",
     "no-console": "off",
+    "import/no-unresolved": "off",
+    "import/no-dynamic-require": "off",
     "class-methods-use-this": "warn",
     "prefer-destructuring": ["error", { "object": true, "array": false }],
     "arrow-body-style": ["off"]

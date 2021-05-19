@@ -1,6 +1,10 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
-
+/**
+ *
+ * @param {object} inputData Option for audioContext
+ * @returns Created audioContext
+ */
 exports.createToken = (userId) => {
   return jwt.sign({ userId }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
@@ -8,18 +12,21 @@ exports.createToken = (userId) => {
 };
 
 exports.verifyToken = async (clientToken) => {
-  if (!clientToken || clientToken === "undefined") {
+  try {
+    const decoded = jwt.verify(clientToken, process.env.JWT_SECRET);
+    console.log("decoded: ", decoded);
+    const user = await User.findById(decoded.userId);
+    console.log("user: ", user);
+    const now = Date.now();
+    const isExpired = decoded.exp * 1000 - now < 0;
+
+    if (!user || isExpired) {
+      return null;
+    }
+
+    return user;
+  } catch (err) {
+    console.log(err);
     return null;
   }
-
-  const decoded = jwt.verify(clientToken, process.env.JWT_SECRET);
-  const user = await User.findOne({ userId: decoded.userId });
-  const now = Date.now();
-  const isExpired = decoded.exp * 1000 - now < 0;
-
-  if (!user || isExpired) {
-    return null;
-  }
-
-  return user;
 };

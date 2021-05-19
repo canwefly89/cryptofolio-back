@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { getDate } = require("../utils/getDate");
 const { Schema } = mongoose;
 const { ObjectId } = Schema.Types;
 
@@ -6,44 +7,31 @@ const CryptofolioSchema = new Schema({
   name: {
     type: String,
     trim: true,
-    unique: true,
-    default: Date.now(),
     required: true,
   },
-  owner: {
+  createdBy: {
     type: ObjectId,
     ref: "User",
     required: true,
   },
   createdAt: {
-    type: Date,
-    default: Date.now(),
+    type: String,
+    default: getDate(),
     required: true,
   },
-  profit: {
-    date: {
-      type: Date,
-      required: true,
-    },
-    profit: {
-      type: Number,
-      required: true,
-    },
+  createdValue: {
+    type: Number,
+    required: true,
   },
-  coins: {
-    _id: {
-      type: ObjectId,
-      ref: "Coin",
-      required: true,
-    },
-    number: {
-      type: Number,
-      required: true,
-    },
-    percent: {
-      type: Number,
-      required: true,
-    },
+  coinSet: {
+    type: Object,
+    required: true,
+  },
+  type: {
+    type: String,
+    enum: ["normal", "investment"],
+    default: "normal",
+    required: true,
   },
 });
 
