@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-const MetaData = require("../../models/metaDataModel");
+const MetaData = require("../../models/metadataModel");
 const Coin = require("../../models/coinModel");
 
 exports.getDataDB = async (req, res, next) => {
