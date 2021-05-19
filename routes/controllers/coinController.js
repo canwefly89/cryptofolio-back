@@ -4,7 +4,7 @@ const Coin = require("../../models/coinModel");
 
 exports.getDataDB = async (req, res, next) => {
   try {
-    const coinDB = await Coin.find().lean();
+    const coinDB = await Coin.find().populate("createdBy").lean();
     const metadata = await MetaData.find().lean();
     const coinData = {};
 
