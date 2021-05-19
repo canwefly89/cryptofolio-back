@@ -64,6 +64,12 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 
+app.get("/", (req, res, next) =>
+  res.status(200).json({
+    message: "success",
+  })
+);
+app.get("/favicon.ico", (req, res, next) => res.status(204));
 app.use("/api/auth", authRouter);
 app.use("/api/cryptofolio", cryptofolioRouter);
 app.use("/api/coin", coinRouter);
