@@ -1,5 +1,5 @@
-const { format } = require("date-fns");
+const dayjs = require("dayjs");
 
 exports.getTime = () => {
-  return format(Date.now(), "HH:mm");
+  return dayjs(Date.now()).format("HH:mm");
 };

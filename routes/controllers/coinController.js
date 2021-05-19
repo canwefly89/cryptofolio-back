@@ -1,15 +1,19 @@
-const metadata = require("../../crawler/crawled/metadata/metadata.json");
-// const coinData = require("../../crawler/crawled/coin/coinData.json");
+const fetch = require("node-fetch");
+const MetaData = require("../../models/metaDataModel");
 const Coin = require("../../models/coinModel");
 
-exports.getHomeDB = async (req, res, next) => {
+exports.getDataDB = async (req, res, next) => {
   try {
-    const coinDB = await Coin.find().lean();
+    const coinDB = await Coin.find().populate("createdBy").lean();
+    const metadata = await MetaData.find().lean();
     const coinData = {};
-    coinDB.forEach((coin) => (coinData[coin.ticker] = coin));
+
+    coinDB.forEach((coin) => {
+      coinData[coin.ticker] = coin;
+    });
 
     const data = {
-      metadata,
+      metadata: Array.from(metadata)[0],
       coinData,
     };
 
@@ -22,9 +26,59 @@ exports.getHomeDB = async (req, res, next) => {
   }
 };
 
-exports.mockfunc = async (req, res, next) => {
+exports.updateMetaDataDB = async (req, res, next) => {
   try {
-    return res.status(200).json();
+    const response = await fetch(`${process.env.CRAWL_SERVER_URL}/metadata`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const result = await response.json();
+
+    if (!result) {
+      return res.status(200).json({
+        message: "fail",
+        data: {
+          errMessage: "업데이트에 실패했습니다.",
+        },
+      });
+    }
+
+    return res.status(200).json({
+      message: "success",
+      data: result.data,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.updatePriceDB = async (req, res, next) => {
+  try {
+    const response = await fetch(`${process.env.CRAWL_SERVER_URL}/price`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const result = await response.json();
+
+    if (!result) {
+      return res.status(200).json({
+        message: "fail",
+        data: {
+          errMessage: "업데이트에 실패했습니다.",
+        },
+      });
+    }
+
+    return res.status(200).json({
+      message: "success",
+      data: result.data,
+    });
   } catch (err) {
     next(err);
   }

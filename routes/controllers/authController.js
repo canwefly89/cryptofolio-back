@@ -28,7 +28,7 @@ exports.checkAuthDB = async (req, res, next) => {
 exports.loginDB = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).populate("cryptofolios");
 
     if (!user) {
       return res.status(200).json({
@@ -70,7 +70,7 @@ exports.loginDB = async (req, res, next) => {
 exports.socialLoginDB = async (req, res, next) => {
   try {
     const { email, name } = req.body;
-    let user = await User.findOne({ email });
+    let user = await User.findOne({ email }).lean();
 
     if (!user) {
       user = new User({
@@ -100,6 +100,17 @@ exports.socialLoginDB = async (req, res, next) => {
 
 exports.signupDB = async (req, res, next) => {
   try {
+    const isExist = await User.findOne({ email: req.body.email });
+
+    if (isExist) {
+      return res.status(200).json({
+        message: "fail",
+        data: {
+          errMessage: "존재하는 이메일입니다.",
+        },
+      });
+    }
+
     const user = new User(req.body);
     await user.save();
 

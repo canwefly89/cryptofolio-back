@@ -9,9 +9,10 @@ exports.parseNumber = (input) => {
     return null;
   }
 
+  const billion = input.split(" ")[0];
   let result = input.replace(NANRegex, "");
 
-  if (input.includes("B")) {
+  if (billion.includes("B")) {
     result *= 1000000000;
   }
 

@@ -9,7 +9,7 @@ const { binanceTickers } = require("../crawler/baseList/binanceList");
  * @returns Created audioContext
  */
 exports.fixCrawledData = (data) => {
-  let fixedData = { ...data };
+  let fixedData = { ...data, categories: [], portfolios: [] };
 
   Object.entries(categoryData).forEach(([key, value]) => {
     if (value.ticker.includes(fixedData.ticker)) {

@@ -23,8 +23,8 @@ const CryptofolioSchema = new Schema({
     type: Number,
     required: true,
   },
-  coinSet: {
-    type: Object,
+  selectedList: {
+    type: Array,
     required: true,
   },
   type: {
