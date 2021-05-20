@@ -33,6 +33,7 @@ exports.updateMetaDataDB = async (req, res, next) => {
       headers: {
         "Content-Type": "application/json",
       },
+      timeout: 0,
     });
 
     const result = await response.json();
@@ -62,6 +63,7 @@ exports.updatePriceDB = async (req, res, next) => {
       headers: {
         "Content-Type": "application/json",
       },
+      timeout: 0,
     });
 
     const result = await response.json();
