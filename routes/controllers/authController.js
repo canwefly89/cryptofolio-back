@@ -70,7 +70,7 @@ exports.loginDB = async (req, res, next) => {
 exports.socialLoginDB = async (req, res, next) => {
   try {
     const { email, name } = req.body;
-    let user = await User.findOne({ email }).lean();
+    let user = await User.findOne({ email }).populate("cryptofolios").lean();
 
     if (!user) {
       user = new User({
